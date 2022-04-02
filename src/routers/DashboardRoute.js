@@ -4,7 +4,6 @@ import { CalendarScreen } from '../components/calendar/CalendarScreen';
 export const DashboardRoutes = () => {
     return (
         <>
-        <div className='container'>
         
         <CalendarScreen/>
 
@@ -12,7 +11,6 @@ export const DashboardRoutes = () => {
             <Routes>
                 
             </Routes>
-        </div>
         </>
     )
 }

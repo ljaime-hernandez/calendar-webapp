@@ -2,7 +2,7 @@ import React from 'react';
 
 export const LoginScreen = () => {
     return (
-        <div className="container login-container">
+        <div>
             <div className="row">
                 <div className="col-md-6 login-form-1">
                     <h3>Access</h3>
