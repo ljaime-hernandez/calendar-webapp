@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import moment from 'moment';
 import Modal from 'react-modal';
 import DateTimePicker from 'react-datetime-picker';
-import { useForm } from '../../hooks/useForm';
 
 const customStyles = {
     content: {
@@ -23,7 +22,7 @@ export const CalendarModal = () => {
 
     const [dateStart, setDateStart] = useState(now.toDate());
     const [dateEnd, setDateEnd] = useState(end.toDate());
-    const [values, handleInputChange] = useForm({
+    const [values, setValues, reset] = useState({
         title: 'Event',
         notes: '',
         start: now.toDate(),
@@ -32,17 +31,36 @@ export const CalendarModal = () => {
 
     const {notes, title} = values;
 
+    const handleInputChange = ({ target }) => {
+
+        setValues({
+            ...values,
+            [ target.name ]: target.value
+        });
+    }
+
+    const handleSubmitForm = (e) => {
+        e.preventDefault();
+        console.log(values)
+    }
+
     const closeModal = () => {
     }
 
     const handleStartDateChange = (e) => {
         setDateStart(e);
-        handleInputChange(e);
+        setValues({
+            ...values,
+            start: e
+        });
     }
 
     const handleEndDateChange = (e) => {
         setDateEnd(e);
-        handleInputChange(e);
+        setValues({
+            ...values,
+            end: e
+        });
     }
 
   return (
@@ -57,7 +75,10 @@ export const CalendarModal = () => {
       >
           <h1> New Event </h1>
             <hr />
-            <form className="container">
+            <form 
+                className="container"
+                onSubmit={handleSubmitForm}
+            >
 
                 <div className="form-group">
                     <label>Initial Date and Time</label>
