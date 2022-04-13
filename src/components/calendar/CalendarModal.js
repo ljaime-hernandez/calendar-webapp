@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import moment from 'moment';
 import Modal from 'react-modal';
 import DateTimePicker from 'react-datetime-picker';
+import Swal from 'sweetalert2';
 
 const customStyles = {
     content: {
@@ -16,20 +17,20 @@ const customStyles = {
   Modal.setAppElement('#root');
 
   const now = moment().minutes(0).seconds(0).add(1,'hours');
-  const end = moment().minutes(0).seconds(0).add(2,'hours');
+  const firstEnd = moment().minutes(0).seconds(0).add(2,'hours');
 
 export const CalendarModal = () => {
 
     const [dateStart, setDateStart] = useState(now.toDate());
-    const [dateEnd, setDateEnd] = useState(end.toDate());
+    const [dateEnd, setDateEnd] = useState(firstEnd.toDate());
     const [values, setValues, reset] = useState({
         title: 'Event',
         notes: '',
         start: now.toDate(),
-        end: end.toDate()
+        end: firstEnd.toDate()
     })
 
-    const {notes, title} = values;
+    const {notes, title, start, end} = values;
 
     const handleInputChange = ({ target }) => {
 
@@ -41,7 +42,15 @@ export const CalendarModal = () => {
 
     const handleSubmitForm = (e) => {
         e.preventDefault();
-        console.log(values)
+        
+        const momentStart = moment(start);
+        const momentEnd = moment(end);
+
+        if(momentStart.isSameOrAfter(momentEnd)){
+            Swal.fire('Error', 'Second date should be greater than first date', 'error');
+            return;
+            
+        }
     }
 
     const closeModal = () => {
