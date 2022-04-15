@@ -13,8 +13,11 @@
     "react-datetime-picker": "^3.5.0",
     "react-dom": "^17.0.2",
     "react-modal": "^3.14.4",
+    "react-redux": "^7.2.8",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
     "sass": "^1.49.9",
     "sweetalert2": "^11.4.8",
     "web-vitals": "^2.1.4"

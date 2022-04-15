@@ -23,6 +23,7 @@ export const CalendarModal = () => {
 
     const [dateStart, setDateStart] = useState(now.toDate());
     const [dateEnd, setDateEnd] = useState(firstEnd.toDate());
+    const [titleValid, setTitleValid] = useState(true)
     const [values, setValues, reset] = useState({
         title: 'Event',
         notes: '',
@@ -47,10 +48,14 @@ export const CalendarModal = () => {
         const momentEnd = moment(end);
 
         if(momentStart.isSameOrAfter(momentEnd)){
-            Swal.fire('Error', 'Second date should be greater than first date', 'error');
-            return;
-            
+            return Swal.fire('Error', 'Second date should be greater than first date', 'error');
         }
+        if (title.trim().length < 2){
+            return setTitleValid(false);
+        }
+
+        setTitleValid(true);
+        closeModal(); 
     }
 
     const closeModal = () => {
@@ -115,7 +120,7 @@ export const CalendarModal = () => {
                     <label>Title and Notes</label>
                     <input 
                         type="text" 
-                        className="form-control"
+                        className={`form-control ${!titleValid && 'is-invalid'}`}
                         placeholder="Event title"
                         name="title"
                         autoComplete="off"
