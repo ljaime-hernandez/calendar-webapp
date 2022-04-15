@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import moment from 'moment';
 import Modal from 'react-modal';
 import DateTimePicker from 'react-datetime-picker';
 import Swal from 'sweetalert2';
+import { useDispatch, useSelector } from 'react-redux';
+import { uiCloseModal } from '../../actions/ui';
+import { eventAddNew } from '../../actions/events';
 
 const customStyles = {
     content: {
@@ -19,12 +22,22 @@ const customStyles = {
   const now = moment().minutes(0).seconds(0).add(1,'hours');
   const firstEnd = moment().minutes(0).seconds(0).add(2,'hours');
 
+  const initialState = {
+      title: '',
+      notes: '',
+      start: now.toDate(),
+      end: firstEnd.toDate()
+  }
+
 export const CalendarModal = () => {
 
+    const dispatch = useDispatch();
+    const {modalOpen} = useSelector( state => state.ui );
+    const {activeEvent} = useSelector( state => state.calendar );
     const [dateStart, setDateStart] = useState(now.toDate());
     const [dateEnd, setDateEnd] = useState(firstEnd.toDate());
     const [titleValid, setTitleValid] = useState(true)
-    const [values, setValues, reset] = useState({
+    const [values, setValues] = useState({
         title: 'Event',
         notes: '',
         start: now.toDate(),
@@ -32,6 +45,13 @@ export const CalendarModal = () => {
     })
 
     const {notes, title, start, end} = values;
+
+    useEffect(() => {
+        if(activeEvent) {
+            setValues(activeEvent)
+        }
+    }, [activeEvent, setValues])
+    
 
     const handleInputChange = ({ target }) => {
 
@@ -54,11 +74,21 @@ export const CalendarModal = () => {
             return setTitleValid(false);
         }
 
+        dispatch(eventAddNew({
+            ...values,
+            id: new Date().getTime(),
+            user: {
+                _id: '1234',
+                name: 'Miguel'
+              }
+        }))
         setTitleValid(true);
         closeModal(); 
     }
 
     const closeModal = () => {
+        dispatch(uiCloseModal());
+        setValues(initialState);
     }
 
     const handleStartDateChange = (e) => {
@@ -79,7 +109,7 @@ export const CalendarModal = () => {
 
   return (
     <Modal
-        isOpen={true}
+        isOpen={modalOpen}
         // onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
