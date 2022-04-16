@@ -7,8 +7,9 @@ import { CalendarModal } from './CalendarModal';
 import { useDispatch, useSelector } from 'react-redux';
 import 'moment/locale/es';
 import { uiOpenModal } from '../../actions/ui';
-import { eventSetActive } from '../../actions/events';
+import { eventClearActive, eventSetActive } from '../../actions/events';
 import { AddNewFab } from '../ui/AddNewFab';
+import { DeleteEventFab } from '../ui/DeleteEventFab';
 
 // uncomment for spanish mode
 //import { messages } from '../../helpers/calendarMessagesEsp';
@@ -21,7 +22,7 @@ const localizer = momentLocalizer(moment);
 export const CalendarScreen = () => {
   
   const dispatch = useDispatch();
-  const {events} = useSelector( state => state.calendar );
+  const {events, activeEvent} = useSelector( state => state.calendar );
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
 
   const onDoubleClick = (e) => {
@@ -29,12 +30,16 @@ export const CalendarScreen = () => {
   }
 
   const onSelect = (e) => {
-    dispatch(eventSetActive(events));
+    dispatch(eventSetActive(e));
   }
 
   const onViewChange = (e) => {
     setLastView(e);
     localStorage.setItem('lastView', e);
+  }
+
+  const onSelectSlot = (e) => {
+    dispatch(eventClearActive())
   }
 
   const eventStyleGetter = (event, start, end, isSelected) => {
@@ -65,6 +70,8 @@ export const CalendarScreen = () => {
           eventPropGetter={eventStyleGetter}
           onDoubleClickEvent={onDoubleClick}
           onSelectEvent={onSelect}
+          onSelectSlot={onSelectSlot}
+          selectable={true}
           onView={onViewChange}
           view={lastView}
           components={{
@@ -77,6 +84,10 @@ export const CalendarScreen = () => {
 
         <CalendarModal/>
         <AddNewFab/>
+
+        {
+          activeEvent && <DeleteEventFab/>
+        }
 
     </div>
   )

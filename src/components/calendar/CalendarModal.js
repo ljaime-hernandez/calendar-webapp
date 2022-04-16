@@ -5,7 +5,7 @@ import DateTimePicker from 'react-datetime-picker';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew } from '../../actions/events';
+import { eventAddNew, eventClearActive, eventUpdated } from '../../actions/events';
 
 const customStyles = {
     content: {
@@ -37,19 +37,18 @@ export const CalendarModal = () => {
     const [dateStart, setDateStart] = useState(now.toDate());
     const [dateEnd, setDateEnd] = useState(firstEnd.toDate());
     const [titleValid, setTitleValid] = useState(true)
-    const [values, setValues] = useState({
-        title: 'Event',
-        notes: '',
-        start: now.toDate(),
-        end: firstEnd.toDate()
-    })
+    const [values, setValues] = useState({initialState})
 
     const {notes, title, start, end} = values;
 
     useEffect(() => {
+
         if(activeEvent) {
             setValues(activeEvent)
+        } else {
+            setValues(initialState)
         }
+
     }, [activeEvent, setValues])
     
 
@@ -74,20 +73,26 @@ export const CalendarModal = () => {
             return setTitleValid(false);
         }
 
-        dispatch(eventAddNew({
-            ...values,
-            id: new Date().getTime(),
-            user: {
-                _id: '1234',
-                name: 'Miguel'
-              }
-        }))
+        if(activeEvent) {
+            dispatch(eventUpdated(values));
+        }else{    
+            dispatch(eventAddNew({
+                ...values,
+                id: new Date().getTime(),
+                user: {
+                    _id: '1234',
+                    name: 'Miguel'
+                  }
+            }))
+        }
+        
         setTitleValid(true);
         closeModal(); 
     }
 
     const closeModal = () => {
         dispatch(uiCloseModal());
+        dispatch(eventClearActive());
         setValues(initialState);
     }
 
@@ -117,7 +122,7 @@ export const CalendarModal = () => {
         className='modal'
         overlayClassName='modal-fondo'
       >
-          <h1> New Event </h1>
+          <h1> {activeEvent ? 'Edit Event' : 'New Event'} </h1>
             <hr />
             <form 
                 className="container"

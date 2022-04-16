@@ -3,6 +3,7 @@ import { types } from '../types/types';
 
 const initialState = {
     events: [{
+        id: new Date().getTime(),
         title: 'Birthday Chikee ',
         start: moment().toDate(),
         end: moment().add(2, 'hours').toDate(),
@@ -20,7 +21,7 @@ const initialState = {
 
 export const calendarReducer = (state = initialState, action) => {
     switch (action.type) {
-        
+
         case types.eventAddNew:
             
             return {
@@ -33,8 +34,25 @@ export const calendarReducer = (state = initialState, action) => {
             return {
                 ...state,
                 activeEvent: action.payload
-            }
-    
+            };
+
+        case types.eventClearActive:
+            
+            return {
+                ...state,
+                activeEvent: null
+            };
+
+        case types.eventDelete:
+            
+            return {
+                ...state,
+                events: state.events.filter(
+                    e => (e.id !== state.activeEvent.id)
+                ),
+                activeEvent: null
+            };
+
         default:
             return state;
     }
