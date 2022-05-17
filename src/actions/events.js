@@ -1,5 +1,16 @@
+import { fetchWithToken } from "../helpers/fetch";
 import { types } from "../types/types";
 
+export const eventStartAddNew = (event) => {
+
+    return async(dispatch) => {
+        
+        const res = await fetchWithToken('events', event, 'POST');
+        const body = await res.json();
+
+        console.log(body);
+    }
+}
 
 export const eventAddNew = (event) => ({
     type: types.eventAddNew,

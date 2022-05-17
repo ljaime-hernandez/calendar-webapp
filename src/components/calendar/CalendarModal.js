@@ -5,7 +5,7 @@ import DateTimePicker from 'react-datetime-picker';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew, eventClearActive, eventUpdated } from '../../actions/events';
+import { eventAddNew, eventClearActive, eventStartAddNew, eventUpdated } from '../../actions/events';
 
 const customStyles = {
     content: {
@@ -76,7 +76,7 @@ export const CalendarModal = () => {
         if(activeEvent) {
             dispatch(eventUpdated(values));
         }else{    
-            dispatch(eventAddNew({
+            dispatch(eventStartAddNew({
                 ...values,
                 id: new Date().getTime(),
                 user: {

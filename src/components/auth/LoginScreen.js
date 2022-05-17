@@ -24,7 +24,7 @@ export const LoginScreen = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        dispatch(startLogin(loginEmail, loginPassword));
+        dispatch(startLogin( loginEmail, loginPassword ));
         reset();
     }
 
@@ -35,7 +35,7 @@ export const LoginScreen = () => {
             return Swal.fire('error', 'Password does not match with password confirmation', 'error');
         }
 
-        dispatch(startRegister(registerName, registerEmail, registerPassword, registerConfirmPassword ));
+        dispatch(startRegister(registerName, registerEmail, registerPassword ));
         registerReset();
     }
 

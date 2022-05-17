@@ -14,17 +14,30 @@ export const authReducer = ( state = initialState, action ) => {
         
             return {
                 ...state,
-                checking: false,
-                ...action.payload
+                ...action.payload,
+                checking: false
             }
 
         case types.authStartRegister: 
         
             return {
                 ...state,
-                checking: false,
-                ...action.payload
+                ...action.payload,
+                checking: false
             }
+
+        case types.authCheckDone: 
+        
+            return {
+                ...state,
+                checking: false
+            }
+
+        case types.authLogout:
+
+        return {
+            checking: false
+        }
 
         default:
             return state;
