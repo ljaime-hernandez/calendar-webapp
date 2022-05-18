@@ -1,21 +1,7 @@
-import moment from 'moment';
 import { types } from '../types/types';
 
 const initialState = {
-    events: [{
-        id: new Date().getTime(),
-        title: 'Birthday Chikee ',
-        start: moment().toDate(),
-        end: moment().add(2, 'hours').toDate(),
-        gbcolor: '#fafafa',
-        notes: 'Buy a cake',
-        user: {
-          _id: '1234',
-          name: 'Miguel'
-        }
-      }
-
-    ],
+    events: [],
     activeEvent: null
 };
 

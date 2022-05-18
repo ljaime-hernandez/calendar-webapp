@@ -3,12 +3,29 @@ import { types } from "../types/types";
 
 export const eventStartAddNew = (event) => {
 
-    return async(dispatch) => {
+    return async(dispatch, getState) => {
         
-        const res = await fetchWithToken('events', event, 'POST');
-        const body = await res.json();
+        const { uid, name } = getState().auth;
 
-        console.log(body);
+        try {
+            const res = await fetchWithToken('events', event, 'POST');
+            const body = await res.json();
+        
+            console.log(body);
+
+                if(body.ok){
+                    event.id = body.event.id;
+                    event.user = {
+                        _id: uid,
+                        name: name
+                    }
+
+                    dispatch(eventAddNew(event));
+                }
+            
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
