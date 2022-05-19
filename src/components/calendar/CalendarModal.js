@@ -25,8 +25,8 @@ const customStyles = {
   const initialState = {
       title: '',
       notes: '',
-      initDate: now.toDate(),
-      endDate: firstEnd.toDate()
+      start: now.toDate(),
+      end: firstEnd.toDate()
   }
 
 export const CalendarModal = () => {
@@ -39,7 +39,7 @@ export const CalendarModal = () => {
     const [titleValid, setTitleValid] = useState(true)
     const [values, setValues] = useState(initialState)
 
-    const {notes, title, initDate, endDate} = values;
+    const {notes, title, start, end} = values;
 
     useEffect(() => {
 
@@ -63,8 +63,8 @@ export const CalendarModal = () => {
     const handleSubmitForm = (e) => {
         e.preventDefault();
         
-        const momentStart = moment(initDate);
-        const momentEnd = moment(endDate);
+        const momentStart = moment(start);
+        const momentEnd = moment(end);
 
         if(momentStart.isSameOrAfter(momentEnd)){
             return Swal.fire('Error', 'Second date should be greater than first date', 'error');
@@ -92,7 +92,7 @@ export const CalendarModal = () => {
         setDateStart(e);
         setValues({
             ...values,
-            initDate: e
+            start: e
         });
     }
 
@@ -100,7 +100,7 @@ export const CalendarModal = () => {
         setDateEnd(e);
         setValues({
             ...values,
-            endDate: e
+            end: e
         });
     }
 
@@ -126,7 +126,7 @@ export const CalendarModal = () => {
                     <DateTimePicker 
                         onChange={handleStartDateChange} 
                         value={dateStart} 
-                        name="initDate"
+                        name="start"
                         className='form-control'
                     />
                 </div>
@@ -137,7 +137,7 @@ export const CalendarModal = () => {
                         onChange={handleEndDateChange} 
                         value={dateEnd} 
                         minDate={dateStart}
-                        name="endDate"
+                        name="end"
                         className='form-control'
                     />
                 </div>
