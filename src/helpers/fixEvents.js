@@ -4,7 +4,7 @@ export const fixEvents = ( events =[] ) => {
     return events.map(
         (e) => ({
             ...e,
-            start: moment(e.initDate).toDate(),
-            end: moment(e.endDate).toDate()
+            start: moment(e.start).toDate(),
+            end: moment(e.end).toDate()
         }))
 }
