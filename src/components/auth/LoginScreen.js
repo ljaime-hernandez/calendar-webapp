@@ -40,7 +40,7 @@ export const LoginScreen = () => {
     }
 
     return (
-        <div>
+        <div className='container mt-5 pt-5'>
             <div className="row">
                 <div className="col-md-6 login-form-1">
                     <h3>Access</h3>
