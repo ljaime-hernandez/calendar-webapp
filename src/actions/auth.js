@@ -41,6 +41,11 @@ export const startRegister = (name, email, password) => {
                 name: body.name
             }))
 
+            dispatch(login({
+                uid: body.uid,
+                name: body.name
+            }))
+
         } else {
             Swal.fire('Error', body.msg, 'error');
         }
