@@ -4,12 +4,17 @@ import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import '@testing-library/jest-dom';
 import { LoginScreen } from '../../../components/auth/LoginScreen';
-import { startLogin } from '../../../actions/auth';
-
+import { startLogin, startRegister } from '../../../actions/auth';
+import Swal from 'sweetalert2';
 
 jest.mock('../../../actions/auth', () => ({
-    startLogin: jest.fn()
-}))
+    startLogin: jest.fn(),
+    startRegister: jest.fn(),
+}));
+
+jest.mock('sweetalert2', () => ({
+    fire: jest.fn()
+}));
 
 const middlewares = [ thunk ];
 const mockStore = configureStore(middlewares);
@@ -27,6 +32,10 @@ const wrapper = mount(
 )
 
 describe('Tests on LoginScreen component', () => {
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
     test('should render properly', () => { 
 
@@ -71,6 +80,36 @@ describe('Tests on LoginScreen component', () => {
                 value: '122345'
             }
         });
-    })
 
-})
+        wrapper.find('form').at(1).prop('onSubmit')({
+            preventDefault(){}
+        });
+
+        expect(startRegister).not.toHaveBeenCalled();
+        expect(Swal.fire).toHaveBeenCalledWith('error', 'Password does not match with password confirmation', 'error');
+    });
+
+    test('should launch startRegister if passwords match', () => {
+
+        wrapper.find('input[name="registerPassword"]').simulate('change', {
+            target: {
+                name: 'registerPassword',
+                value: '122345'
+            }
+        });
+
+        wrapper.find('input[name="registerConfirmPassword"]').simulate('change', {
+            target: {
+                name: 'registerConfirmPassword',
+                value: '122345'
+            }
+        });
+
+        wrapper.find('form').at(1).prop('onSubmit')({
+            preventDefault(){}
+        });
+
+        expect(Swal.fire).not.toHaveBeenCalled();
+        expect(startRegister).toHaveBeenCalledWith("Miguel", "email@email.com", "122345");
+    });
+});
