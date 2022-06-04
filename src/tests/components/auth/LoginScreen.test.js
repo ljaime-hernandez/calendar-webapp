@@ -1,11 +1,12 @@
-import configureStore from 'redux-mock-store';
+import '@testing-library/jest-dom';
+import Swal from 'sweetalert2';
 import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+import { act } from '@testing-library/react';
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import '@testing-library/jest-dom';
 import { LoginScreen } from '../../../components/auth/LoginScreen';
 import { startLogin, startRegister } from '../../../actions/auth';
-import Swal from 'sweetalert2';
 
 jest.mock('../../../actions/auth', () => ({
     startLogin: jest.fn(),
@@ -58,9 +59,11 @@ describe('Tests on LoginScreen component', () => {
             }
         });
 
-        wrapper.find('form').at(0).prop('onSubmit')({
-            preventDefault(){}
-        });
+        act(() => {
+            wrapper.find('form').at(0).prop('onSubmit')({
+                preventDefault(){}
+            });
+        })
 
         expect(startLogin).toHaveBeenCalledWith('email@emaill.com', '122345');
     });
@@ -81,9 +84,11 @@ describe('Tests on LoginScreen component', () => {
             }
         });
 
-        wrapper.find('form').at(1).prop('onSubmit')({
-            preventDefault(){}
-        });
+        act(() => {
+            wrapper.find('form').at(1).prop('onSubmit')({
+                preventDefault(){}
+            });
+        })
 
         expect(startRegister).not.toHaveBeenCalled();
         expect(Swal.fire).toHaveBeenCalledWith('error', 'Password does not match with password confirmation', 'error');
@@ -105,8 +110,10 @@ describe('Tests on LoginScreen component', () => {
             }
         });
 
-        wrapper.find('form').at(1).prop('onSubmit')({
-            preventDefault(){}
+        act(() => {
+            wrapper.find('form').at(1).prop('onSubmit')({
+                preventDefault(){}
+            });
         });
 
         expect(Swal.fire).not.toHaveBeenCalled();

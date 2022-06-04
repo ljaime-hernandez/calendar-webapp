@@ -80,9 +80,10 @@ export const CalendarModal = () => {
             dispatch(eventStartUpdate(values));
         }else{    
             dispatch(eventStartAddNew(values));
-            setTitleValid(true);
-            closeModal(); 
         }
+        
+        setTitleValid(true);
+        closeModal(); 
     }
 
     const closeModal = () => {
@@ -116,6 +117,7 @@ export const CalendarModal = () => {
         closeTimeoutMS={200}
         className='modal'
         overlayClassName='modal-fondo'
+        ariaHideApp={ !process.env.NODE_ENV === 'test'}
       >
           <h1> {activeEvent ? 'Edit Event' : 'New Event'} </h1>
             <hr />

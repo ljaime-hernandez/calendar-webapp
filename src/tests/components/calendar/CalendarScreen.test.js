@@ -1,12 +1,12 @@
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { mount } from "enzyme";
-import { Provider } from "react-redux";
-import { CalendarScreen } from '../../../components/calendar/CalendarScreen';
-import { act } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+import { mount } from "enzyme";
+import { act } from '@testing-library/react';
+import { Provider } from "react-redux";
 import { types } from '../../../types/types';
 import { eventSetActive } from '../../../actions/events';
+import { CalendarScreen } from '../../../components/calendar/CalendarScreen';
 
 jest.mock('../../../actions/events', () => ({
     eventSetActive: jest.fn(),
@@ -41,7 +41,6 @@ const wrapper = mount(
         <CalendarScreen/>
     </Provider>
 )
-
 
 describe('Tests on CalendarScreen component', () => {
 

@@ -1,15 +1,17 @@
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import '@testing-library/jest-dom';
+import 'jest-canvas-mock';
 import moment from 'moment';
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import '@testing-library/jest-dom';
 import { CalendarModal } from '../../../components/calendar/CalendarModal';
+import { eventClearActive, eventStartUpdate } from '../../../actions/events';
 
-// jest.mock('../../../actions/events', () => ({
-//     eventSetActive: jest.fn(),
-//     eventStartLoading: jest.fn()
-// }))
+jest.mock('../../../actions/events', () => ({
+    eventStartUpdate: jest.fn(),
+    eventClearActive: jest.fn()
+}))
 
 const middlewares = [ thunk ];
 const mockStore = configureStore(middlewares);
@@ -25,7 +27,7 @@ const initState = {
             title: 'Test title',
             notes: 'Test note',
             start: now.toDate(),
-            end: firstEnd.toDate
+            end: firstEnd.toDate()
         }
     },
     auth: {
@@ -33,7 +35,7 @@ const initState = {
         name: 'Miguel'
     },
     ui: {
-        modalOpen: false
+        modalOpen: true
     }
 };
 
@@ -50,8 +52,32 @@ const wrapper = mount(
 
 describe('Tests on CalendarModal component', () => {
 
+beforeEach(() => {
+    jest.clearAllMocks();
+});
+
     test('should render properly', () => {
 
-        expect (wrapper.find('Modal').prop('isOpen')).toBe(true);
+        expect(wrapper.find('Modal').prop('isOpen')).toBe(true);
     });
+
+    test('should call update action and close modal', () => { 
+
+        wrapper.find('form').simulate('submit', {
+            preventDefault(){}
+        });
+
+        expect(eventStartUpdate).toHaveBeenCalledWith(initState.calendar.activeEvent);
+        expect(eventClearActive).toHaveBeenCalled();
+    });
+
+    test('should display error if title is missing', () => { 
+
+        wrapper.find('form').simulate('submit', {
+            preventDefault(){}
+        });
+
+        expect(wrapper.find('input[name="title"]').hasClass('is-invalid')).toBe(true);
+
+    });    
 });
