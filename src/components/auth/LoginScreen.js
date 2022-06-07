@@ -8,17 +8,23 @@ export const LoginScreen = () => {
 
     const dispatch = useDispatch();
     
+    // the values on this form are set by default so the user can check the functionality of the webapp without creating
+    // their own user, but it can receive different information if requested
     const [values, handleInputChange, reset] = useForm({
         loginEmail: 'email@email.com',
         loginPassword: '122345'
     });
+
+    // the values on this form are set empty so the user can create its account
     const [registerValues, handleRegisterInputChange, registerReset] = useForm({
-        registerName: 'Miguel',
-        registerEmail: 'email@email.com',
-        registerPassword: '122345',
-        registerConfirmPassword: '122345'
+        registerName: '',
+        registerEmail: '',
+        registerPassword: '',
+        registerConfirmPassword: ''
     });
 
+    // the values of both the login and register forms are retrieved for use to use them as reference for any operation
+    // we require in the future 
     const { loginEmail, loginPassword } = values;
     const { registerName, registerEmail, registerPassword, registerConfirmPassword } = registerValues;
 
