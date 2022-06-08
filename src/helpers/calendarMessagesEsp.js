@@ -1,3 +1,4 @@
+// messages object used to change all properties in our calendar to spanish (dummy)
 export const messages = {
     allDay: 'Todo el día',
     previous: '<',
