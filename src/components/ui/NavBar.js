@@ -6,9 +6,13 @@ import { startLogout } from '../../actions/auth';
 export const NavBar = () => {
 
   const dispatch = useDispatch();
+  // the useSelector will retrieve the user name from the authReducer to display it dynamically on the 
+  // navbar
   const { name } = useSelector( state => state.auth );
 
   const handleLogout = () => {
+    // the logout function will erase all information saved in the localStorage and store, for additional
+    // information please refer to the auth action file
     dispatch(startLogout());
   }
 
@@ -17,20 +21,12 @@ export const NavBar = () => {
         <Navbar.Brand href="#home">{name}</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
-            </Nav>
-            <Nav>
-            <Nav.Link href="/">More deets</Nav.Link>
-            <Nav.Link eventKey={2} href="/">
-                Dank memes
-            </Nav.Link>
+            <Nav className="me-auto ">
             <button 
               className='btn btn-outline-danger'
               onClick={handleLogout}>
                 <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                 Logout
+                &nbsp;&nbsp;Logout
             </button>
             </Nav>
         </Navbar.Collapse>

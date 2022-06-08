@@ -1,8 +1,8 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
-import { startLogin, startRegister } from '../../actions/auth';
+import { useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
+import { startLogin, startRegister } from '../../actions/auth';
 
 export const LoginScreen = () => {
 
@@ -30,6 +30,7 @@ export const LoginScreen = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
+        // dispatches the function using the first form to log the user in
         dispatch(startLogin( loginEmail, loginPassword ));
         reset();
     }
@@ -37,11 +38,17 @@ export const LoginScreen = () => {
     const handleRegister = (e) => {
         e.preventDefault();
 
+        // compares the registration password as they have to be equal, if not then the user wont be able
+        // to submit the form, the calendar backend also has a secondary filter which will force the user to
+        // submit a password of at least 6 characters, displayed in a sweetalert popup with the respective message
         if(registerPassword !== registerConfirmPassword){
             return Swal.fire('error', 'Password does not match with password confirmation', 'error');
         }
 
+        // will register the users information if properly submitted onto out mongo database. If successful,
+        // the user will also be logged in to the webpage
         dispatch(startRegister(registerName, registerEmail, registerPassword ));
+        // Resets the values of the register form
         registerReset();
     }
 
@@ -108,7 +115,7 @@ export const LoginScreen = () => {
                             <input
                                 type="password"
                                 className="form-control"
-                                placeholder="Password"
+                                placeholder="Password should be at least 6 characters long"
                                 name="registerPassword"
                                 value={registerPassword}
                                 onChange={handleRegisterInputChange}

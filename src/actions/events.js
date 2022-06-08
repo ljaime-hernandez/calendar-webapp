@@ -79,6 +79,7 @@ export const eventStartUpdate = (event) => {
 
             if(body.ok) {
                 dispatch(eventUpdated(event));
+                dispatch(eventStartLoading());
             } else {
                 // the error message displayed in the Sweetalert popup is retrieved from the calendar backend, 
                 // which will be attached to the body response 
@@ -110,6 +111,8 @@ export const eventStartDelete = () => {
 
             if(body.ok) {
                 dispatch(eventDeleted());
+                dispatch(eventStartLoading());
+                dispatch(eventClearActive());
             } else {
                 // the error message displayed in the Sweetalert popup is retrieved from the calendar backend, 
                 // which will be attached to the body response 
