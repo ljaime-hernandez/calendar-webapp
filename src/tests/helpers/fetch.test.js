@@ -19,11 +19,15 @@ describe('Tests on fetch helper', () => {
 
     test('FetchWithoutToken should return proper information', async() => {
 
+        // we are simulating a login request by using the 'auth' endpoint, an data object with valid
+        // email and password credentials and a POST request to the calendar backend server, the response
+        // will contain a token which we will use on the next test
         const resp = await fetchWithoutToken('auth', {email: 'email@email.com', password: '122345'}, 'POST');
         const body = await resp.json();
         
         token = body.token;
         
+        // we test the resp to be an instance of a Response type and the value of the body.ok to be true
         expect(resp instanceof Response).toBe(true);
         expect(body.ok).toBe(true);
 
@@ -31,12 +35,18 @@ describe('Tests on fetch helper', () => {
 
     test('FetchWithToken should return proper information', async() => {
 
+        // after we receive the response, the token should be stored in the localStorage, we will save it
+        // so we can test the fetchWithToken function
         localStorage.setItem('token', token);
 
+        // the function is called with an endpoint concatenated with an INVALID event id, as the request is
+        // of DELETE nature, we dont need any extra data on it and the request is of course of type
+        // DELETE
         const resp = await fetchWithToken('events/6271ef96e06f32bf9134e212', {}, 'DELETE');
         const body = await resp.json();
 
+        // the backend will look for an event with the previous id, which does not exist, what we test is the
+        // body message containing the proper error response
         expect(body.msg).toBe('Event does not exist');
-
-    })
-})
+    });
+});

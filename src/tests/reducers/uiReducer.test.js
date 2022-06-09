@@ -42,5 +42,5 @@ describe('Tests on uiReducer', () => {
         expect(stateClose).toEqual({
             modalOpen: false
         });
-    })
- })
+    });
+});

@@ -11,13 +11,13 @@
 10. to have a clearer view of this single js test file, press p. then type the file name 'auth.test.js'
 */
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import Swal from 'sweetalert2';
 import '@testing-library/jest-dom';
+import Swal from 'sweetalert2';
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+import { types } from '../../types/types';
 import * as fetchModule from '../../helpers/fetch';
 import { startChecking, startLogin, startRegister } from '../../actions/auth';
-import { types } from '../../types/types';
 
 // mock for the Swal function to test errors received from auth controllers in calendar backend 
 jest.mock('sweetalert2', () => ({

@@ -11,32 +11,39 @@
 10. to have a clearer view of this single js test file, press p. then type the file name 'DeleteEventFab.test.js'
 */
 
-import configureStore from 'redux-mock-store';
+import '@testing-library/jest-dom';
 import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import { DeleteEventFab } from '../../../components/ui/DeleteEventFab';
-import '@testing-library/jest-dom';
 import { eventStartDelete } from '../../../actions/events';
+import { DeleteEventFab } from '../../../components/ui/DeleteEventFab';
 
+// all actions used in this component test will be set as mock functions
 jest.mock('../../../actions/events', () => ({
     eventStartDelete: jest.fn()
-}))
+}));
 
+// for our mockStore we need to configure its middleware as a normal store so thunk must be used
+// as in a normal store
 const middlewares = [ thunk ];
 const mockStore = configureStore(middlewares);
 
+// the initial state of the auth reducer will be empty but will be modified according to the
+// required test
 const initState = {};
 let store = mockStore(initState);
 store.dispatch = jest.fn();
 
+// the Provider component will allow us to mount the whole webapp mock requirements for the
+// DeleteEventFab component to be tested accordingly
 const wrapper = mount(
     <Provider
         store={store}
     >
         <DeleteEventFab/>
     </Provider>
-)
+);
 
 describe('Tests on DeleteEventFab component', () => {
 

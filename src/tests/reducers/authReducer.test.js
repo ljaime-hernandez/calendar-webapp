@@ -11,12 +11,12 @@
 10. to have a clearer view of this single js test file, press p. then type the file name 'authReducer.test.js'
 */
 
-import { authReducer } from "../../reducers/authReducer";
 import { types } from "../../types/types";
+import { authReducer } from "../../reducers/authReducer";
 
 const initState = {
     checking: true
-}
+};
 
 describe('Tests on authReducer', () => {
 
@@ -63,4 +63,4 @@ describe('Tests on authReducer', () => {
 
         expect(state).toEqual({  checking: false, uid: '123', name: 'Miguel' });
     });
-})
+});

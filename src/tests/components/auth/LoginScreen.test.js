@@ -134,8 +134,20 @@ describe('Tests on LoginScreen component', () => {
     test('should launch startRegister if passwords match', () => {
 
         // simulate a change in both registerPassword and registerConfirmPassword values of the 
-        // register form input. In this case, the passwords  match so there should be an appropriate
+        // register form input. In this case, the passwords match so there should be an appropriate
         // procedure in the form tested
+        wrapper.find('input[name="registerEmail"]').simulate('change', {
+            target: {
+                name: 'registerEmail',
+                value: 'emailtest@emailtest.com'
+            }
+        });
+        wrapper.find('input[name="registerName"]').simulate('change', {
+            target: {
+                name: 'registerName',
+                value: 'testname'
+            }
+        });
         wrapper.find('input[name="registerPassword"]').simulate('change', {
             target: {
                 name: 'registerPassword',
