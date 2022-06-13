@@ -19,8 +19,6 @@ export const eventStartAddNew = (event) => {
         // endpoint which is 'events' and the third argument must be a POST
             const res = await fetchWithToken('events', event, 'POST');
             const body = await res.json();
-        
-            console.log(body);
 
                 // if the response is correct, then we will add the uid and name of the user for it to be used as reference
                 // on the eventModal, which will help us register the event using this user as reference for whenever we want
@@ -75,7 +73,6 @@ export const eventStartUpdate = (event) => {
             // updated
             const resp = await fetchWithToken(`events/${event.id}`, event, 'PUT');
             const body = await resp.json();
-
 
             if(body.ok) {
                 dispatch(eventUpdated(event));

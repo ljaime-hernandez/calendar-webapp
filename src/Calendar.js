@@ -8,5 +8,5 @@ export const CalendarApp = () => {
     <Provider store={store}>
         <AppRouter/>
     </Provider>
-  )
-}
+  );
+};

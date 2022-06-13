@@ -37,6 +37,6 @@ describe('Tests on types file', () => {
             authStartRegister: '[auth] Start register',
             authTokenRenew: '[auth] Token renew',
             authLogout: '[auth] logout'
-        })
-     })
-})
+        });
+     });
+});

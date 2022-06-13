@@ -11,24 +11,29 @@
 10. to have a clearer view of this single js test file, press p. then type the file name 'AppRouter.test.js'
 */
 
-import configureStore from 'redux-mock-store';
+import '@testing-library/jest-dom';
 import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import '@testing-library/jest-dom';
 import { AppRouter } from '../../routers/AppRouter';
 
+// for our mockStore we need to configure its middleware as a normal store so thunk must be used
+// as in a normal store
 const middlewares = [ thunk ];
 const mockStore = configureStore(middlewares);
 
+// the initial state of the auth reducer will be empty but will be modified according to the
+// required test
 const initState = {
     auth: {
         checking: true
     }
 };
+
+// the initial state of the store will be then filled with the prefixed initial state
 let store = mockStore(initState);
 store.dispatch = jest.fn();
-
 
 describe('Tests on AppRouter component', () => {
     
@@ -49,7 +54,8 @@ describe('Tests on AppRouter component', () => {
                 <AppRouter/>
             </Provider>
         )
-
+        // the snapshot should display an h1 tag with a 'Wait' message as the default
+        // initialState for this test is not communicating with the calendar backend
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('h1').exists()).toBe(true);
     });
@@ -71,8 +77,11 @@ describe('Tests on AppRouter component', () => {
             >
                 <AppRouter/>
             </Provider>
-        )
+        );
 
+        // the snapshot should display a LoginScreen component with a container class as the default
+        // initialState for this test is emulating the communication with the calendar backend, we can
+        // also test with any of the classes or elements present on the LoginScreen component
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.container').exists()).toBe(true);
     });
@@ -104,7 +113,11 @@ describe('Tests on AppRouter component', () => {
             </Provider>
         )
 
+        // the snapshot should display a CalendarScreen component with a navbar class as the default
+        // initialState for this test is emulating the communication with the calendar backend on an
+        // authorized user, we can also test with any of the classes or elements present on the 
+        // NavBar component
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.navbar').exists()).toBe(true);
     });
-})
+});
