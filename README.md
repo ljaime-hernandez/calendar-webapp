@@ -37,6 +37,35 @@ every interaction will be authorized with the use of a Jason Web Token (JWT) fro
 (please refer to the calendar-backend repository for further information)
 
 ### events:
-
+Has the CRUD requests to our calendar-backend API (create, delete, update or retrieve events), some of them has either 
+custom error messages or attached body messages from the requests which are not fulfilled correctly due to incorrect or 
+missing information. Some of the functions contains actions preping the modal component to either create a new event 
+or retrieve the information of an existing event to display its information in the calendar modal and update it if 
+the user is authorized.
 
 ### ui:
+Has the objects used by the store to set the modal status either as active or inactive (to render it on the page or to close 
+it).
+
+## components:
+
+### auth:
+
+#### LoginScreen:
+Has two forms, one for the user to login with its credentials (set with a default user so anyone can access the page to see
+its contents and functionality) and a register form for anyone to input its information and create a personal user.
+It has a filter to check for both the registration password and the registration password confirm to display a popup error
+in case they do not match.
+
+### calendar:
+
+#### CalendarEvent:
+This component will render the events individually using the event title and the user name which created the event
+
+#### CalendarModal:
+Will render the component as a form to visualize the existing events information or to create a new one based on the users 
+behavior on the page (either clicking the new event button or clicking existing events). If the event is new it will use the 
+actual date and time as default and increase it by one hour, it will handle any changes on the user input to let it know if the
+title is not long enough or if the dates for the events are invalid (if the event start date is previous to the event end date 
+then it wont allow the user to submit any request) and if the event exists then it will allow the event creator to modify it if 
+desired, 
