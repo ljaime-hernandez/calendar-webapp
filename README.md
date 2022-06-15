@@ -63,9 +63,58 @@ in case they do not match.
 This component will render the events individually using the event title and the user name which created the event
 
 #### CalendarModal:
-Will render the component as a form to visualize the existing events information or to create a new one based on the users 
-behavior on the page (either clicking the new event button or clicking existing events). If the event is new it will use the 
-actual date and time as default and increase it by one hour, it will handle any changes on the user input to let it know if the
+Will render the component as a form to either visualize the existing events information or create a new event based on the users 
+behavior on the page (either clicking the new event button or clicking existing events). If the event is new it will use todays 
+date and time as default and increase it by one hour, it will handle any changes on the user input to let it know if the
 title is not long enough or if the dates for the events are invalid (if the event start date is previous to the event end date 
 then it wont allow the user to submit any request) and if the event exists then it will allow the event creator to modify it if 
-desired, 
+desired.
+
+#### CalendarScreen:
+Some of the features included on this component is the use of the localizer, which will use the users information retrieved on
+the browser with the use of moment.js to know the users time zone, for it to be used on the events display. The main component
+rendered is the Calendar from react-big-calendar, it has some useful properties which you can customize such as the events on them,
+selection and click events, views for each day, week, month and full agenda, and some extra features explained in the file.
+
+### ui:
+
+#### AddNewFab:
+Button designed to add new events by launching the modal on the screen
+
+#### DeleteEventFab:
+Button designed to delete events by using the active event id
+
+#### NavBar:
+Navigation bar component retrieved from the react-bootstrap library used to display the users name and logout from the main page
+
+## Helpers:
+
+### calendarMessagesEsp:
+Object containing strings used in case the developer wants to change the calendar into spanish mode
+
+### fetch:
+Contain the functions for both request with or without token, which are used to authorize certain operations with the use of JWT 
+to modify events. Both of them are going to use an endpoint, data and the method as parameters, which we will mix with both the
+base URL, 
+
+### Dependencies:
+
+- react
+- react-router-dom
+- react-big-calendar
+- react-bootstrap
+- react-daytime-picker
+- react-modal
+- sass
+- mongoose
+- redux
+- redux-thunk (middleware)
+- moment (for proper date formatting)
+- Sweetalert2 (for alert and confirm popups)
+- enzyme
+- enzyme-to-json
+- enzyme-adapter-react-17
+- jest
+- jest-canvas-mock
+- react-hooks (for hooks tests)
+- redux-mock-store (for Firestore tests)

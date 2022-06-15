@@ -27,8 +27,8 @@ const fetchWithoutToken = ( endpoint, data, method = 'GET' ) => {
             },
             body: JSON.stringify(data)
         });
-    }
-}
+    };
+};
 
 // Receives the endpoint which will be the "additional" portion of the webpage which we will use as reference
 // for whatever process we need to do either to authorize or to modify events.
@@ -64,10 +64,10 @@ const fetchWithToken = ( endpoint, data, method = 'GET' ) => {
             },
             body: JSON.stringify(data)
         });
-    }
-}
+    };
+};
 
 export {
     fetchWithoutToken,
     fetchWithToken
-}
+};
